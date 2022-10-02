@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejer 1 Json</title>
+</head>
+<body>
+    <script type="text/javascript">
+
+        let productos = [
+            {"codigoBarra" : 100, "nombre" : "Alfajor", "precio" : 50},
+            {"codigoBarra" : 101, "nombre" : "Agua", "precio" : 150},
+            {"codigoBarra" : 102, "nombre" : "Ketchup", "precio" : 70}
+        ];
+
+        let mensaje = "";
+
+        productos.forEach(item => {
+            mensaje += (`Producto: ${item.codigoBarra} - ${item.nombre} - ${item.precio}\n`);
+        });
+
+        console.log(mensaje);
+        alert(mensaje);
+
+    </script>
+</body>
+</html>
+
+<!-- 
+Aplicación No 2 (Generar una colección de Json)
+Tomando como punto de partida el ejercicio anterior, diseñar una colección de tres elementos
+de tipo producto. Diseñarlo en el <script type=”text/javascript”>.
+Validar su buen diseño ingresando en “http://jsonviewer.stack.hu/”.
+Una vez validado el Json, mostrar todos sus atributos en un alert() y en el console.log().  
+-->

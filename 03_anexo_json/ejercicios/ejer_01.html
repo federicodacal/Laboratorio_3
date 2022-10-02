@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejer 1 Json</title>
+</head>
+<body>
+    <script type="text/javascript">
+
+        let producto = {"codigoBarra" : 100, "nombre" : "Alfajor", "precio" : 50};
+
+        let mensaje = `Producto: ${producto.codigoBarra} - ${producto.nombre} - ${producto.precio}`;
+        console.log(mensaje);
+        alert(mensaje);
+
+    </script>
+</body>
+</html>
+
+<!-- 
+Aplicación No 1 (Generar un Json)
+Crear un Json que represente información acerca de un producto (codigoBarra, nombre,
+precio). Diseñarlo en el <script type=”text/javascript”>.
+Validar su buen diseño ingresando en “http://jsonviewer.stack.hu/”.
+Una vez validado el Json, mostrar todos sus atributos en un alert() y en el console.log().
+-->
