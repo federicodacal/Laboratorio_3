@@ -1,0 +1,5 @@
+100 - federico - dacal - ../fotos/100.jpg
+102 - juana - sanchez - ./fotos/102.jpg
+104 - hector - perez - ./fotos/104.jpg
+105 - pedro - lopez - ./fotos/105.jpg
+112 - jim - morrison - ./fotos/112.jpg

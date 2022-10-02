@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio Empleados</title> 
+    <script src="persona.js"></script> 
+    <script src="empleado.js"></script> 
+    <script src="fabrica.js"></script> 
+    <script src="manejadorEmpleados.js"></script>
+</head>
+<body>
+    <h3>Ejercicio Empleados</h3>
+    <form action="" id="frm">
+        <input type="text" id="nombre" placeholder="Ingrese nombre"/> 
+        <br><br>
+        <input type="text" id="apellido" placeholder="Ingrese apellido"/> 
+        <br><br>
+        <input type="number" id="dni" placeholder="Ingrese DNI"/> 
+        <br><br>
+        Sexo
+        <select name="sexo" id="sexo">
+            <option value="M">M</option>
+            <option value="F">F</option>
+            <option value="NB">NB</option>
+        </select>
+        <br><br>
+        <input type="number" id="legajo" placeholder="Ingrese legajo"/> 
+        <br><br>
+        <input type="number" id="sueldo" placeholder="Ingrese sueldo"/> 
+        <br><br>
+        Accion
+        <select name="accion" id="accion">
+            <option value="agregar">Agregar</option>
+            <option value="eliminar">Eliminar</option>
+            <option value="mostrar">Mostrar Fabrica</option>
+        </select>
+        <br><br>
+        <input type="button" onclick="ManejadorEmpleados.RealizarAccion()" value="Enviar" />
+    </form>
+    
+</body>
+</html>
