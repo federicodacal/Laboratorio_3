@@ -7,7 +7,6 @@ $a = fopen("./archivos/paises_equipos.json","r");
 
 $linea = '';
 while(!feof($a)){
-
     $linea .= fgets($a);
 }
 
@@ -18,8 +17,8 @@ $equipos = json_decode($linea);
 $equiposFiltrados = array();
 
 //RECORRO LOS OBJETOS Y LOS AGREGO A UN ARRAY SOLO SI COINCIDE CON EL CRITERIO ELEGIDO
-foreach($equipos as $eq){
-    
+foreach($equipos as $eq)
+{    
     if($eq->idPais == $idPais)
     {
         $e = new stdclass();
@@ -28,13 +27,16 @@ foreach($equipos as $eq){
 
         array_push($equiposFiltrados, $e);
     }
-
 }
 
 //VUELVO A ENCODEAR A JSON, Y LO RETORNO
 if(count($equiposFiltrados) > 0)
-    $equiposPorPais = json_encode($equiposFiltrados);
+{
+    $equiposPorPais = json_encode($equiposFiltrados); // serializo
+}
 else
+{
     $equiposPorPais = "{}";
+}
     
 echo $equiposPorPais;
