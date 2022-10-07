@@ -1,7 +1,5 @@
 /// <reference path="../ajax.ts" />
 
-
-
 function ObtenerEquiposPorIdPais(idPais:number):void {
 
     if (idPais == 0) {
@@ -32,9 +30,6 @@ function ObtenerEquiposPorIdPais(idPais:number):void {
             
         }
         , params, Fail);
-    
-
-
 }
 
 

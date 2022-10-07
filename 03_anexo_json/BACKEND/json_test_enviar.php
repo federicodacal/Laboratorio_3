@@ -1,8 +1,11 @@
 <?php
 
+	// Ver manejadora2.ts
+
 	var_dump($_POST);
 	
-	$persona = json_decode($_POST["miPersona"], false);
+	// Recibo parametro 'miPersona'
+	$persona = json_decode($_POST["miPersona"], false); // deserializo
 	
 	var_dump($persona);
 

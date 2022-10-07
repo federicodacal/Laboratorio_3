@@ -10,11 +10,19 @@
 	$persona->nombre = "Juan";
 	$persona->edad = 66;
 
-	// Json encode del objeto
-	$objJson = json_encode($persona); // encode del obj a string en formato json
+	// A partir del obj (persona) en memoria 
+	// Json encode del objeto (Serializacion json)
+	$objJson = json_encode($persona); // encode (serializacion) del obj a string en formato json
 
+	echo "Obj en memoria:<br>";
+	var_dump($persona);
+	
+	echo "Obj serializado a json: <br>";
 	var_dump($objJson);
 
+	echo $objJson;
 ?>
+
+<br/>
 <br/>
 <a href="../Json/index.html"  class="btn btn-info">Volver</a>

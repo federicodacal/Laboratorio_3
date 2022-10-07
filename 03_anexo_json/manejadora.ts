@@ -44,7 +44,7 @@ namespace Test{
                 //cadena con un array de objetos
                 let cadJSON : string = ' [{ "nombre" : "Juan", "edad" : 35 },{ "nombre" : "Anibal", "edad" : 26 }] ';
                 
-                let personasJSON : any = JSON.parse(cadJSON); 
+                let personasJSON : any = JSON.parse(cadJSON); // transformo una cadena a obj json (deserializar)
 
                 for(let i=0; i<personasJSON.length; i++)
                     console.log(personasJSON[i].nombre + " - " + personasJSON[i].edad); 
@@ -57,11 +57,11 @@ namespace Test{
                 //objeto simple
                 let p : any = { "nombre" : "Juan", "edad" : 35 }; // objeto json
 
-                let toString : string = JSON.stringify(p);
+                let toString : string = JSON.stringify(p); // transformo el obj json a cadena (serializar)
 
                 console.log(toString);
 
-                let obj : any = JSON.parse(toString);
+                let obj : any = JSON.parse(toString); 
 
                 console.log(obj.nombre + " - " + obj.edad);
                 

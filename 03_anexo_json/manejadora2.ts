@@ -9,7 +9,7 @@ namespace Test {
         let pagina = "../BACKEND/json_test_enviar.php";
         
         let ajax : Ajax = new Ajax();
-        let params : string = "miPersona=" + JSON.stringify(persona);
+        let params : string = "miPersona=" + JSON.stringify(persona); // serialización de persona
 
         ajax.Post(pagina, (resultado:string) => {
 
