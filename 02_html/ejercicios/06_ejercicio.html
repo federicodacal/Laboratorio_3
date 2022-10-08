@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejer 06</title>
+</head>
+<body>
+    
+    <script>
+
+        let paises = 
+        [ {"nombre" : "China", "poblacion" : 1412600000 }, 
+        { "nombre" : "India", "poblacion" : 1375586000} , 
+        { "nombre" : "USA", "poblacion" : 331893745 }];
+
+        let response = "<ol>";
+
+        let total = 0;
+
+        paises.forEach(pais => {
+            response += `<li> ${pais.nombre}: ${pais.poblacion} habitantes</li>`;
+            total += pais.poblacion;
+        });
+
+        response += "</ol>";
+
+        document.write(response);
+
+        response = "<h2>Sumatoria: </h2>";
+
+        response += `<em>${total}</em> habitantes`;
+
+        document.write(response);
+
+    </script>
+    
+</body>
+</html>
