@@ -12,7 +12,7 @@ namespace Test{
         xhttp.send();
 
         //FUNCION CALLBACK
-        xhttp.onreadystatechange = () => {
+        xhttp.onreadystatechange = () => { // manejador de eventos para el atributo onreadystatechange
             
             console.log(xhttp.readyState + " - " + xhttp.status);
             
@@ -48,7 +48,7 @@ namespace Test{
         //INSTANCIO OBJETO FORMDATA -> Provides a way to easily construct a set of key/value
         let form : FormData = new FormData();
 
-        //AGREGO PARAMETROS AL FORMDATA: 
+        //AGREGO PARAMETROS AL FORMDATA: (en formato string)
         form.append('valor', (Math.random()*100).toString());
         
         //ENVIO DE LA PETICION CON LOS PARAMETROS FORMDATA
@@ -121,7 +121,7 @@ namespace Test{
         xhttp.setRequestHeader("content-type","application/x-www-form-urlencoded");
         
         //ENVIO DE LA PETICION
-        xhttp.send(null);
+        xhttp.send(null); // null porque no envío parametros
 
         //FUNCION CALLBACK
         xhttp.onreadystatechange = () => {
