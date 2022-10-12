@@ -6,6 +6,6 @@
 	$persona->nombre = "Juan";
 	$persona->edad = 66;
 
-	$objJson = json_encode($persona);
+	$objJson = json_encode($persona); // serializo
 
 	echo $objJson;

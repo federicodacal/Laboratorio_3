@@ -4,7 +4,7 @@
 
 	var_dump($_POST);
 	
-	// Recibo parametro 'miPersona'
+	// Recupero parametro 'miPersona'
 	$persona = json_decode($_POST["miPersona"], false); // deserializo
 	
 	var_dump($persona);

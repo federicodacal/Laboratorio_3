@@ -7,6 +7,7 @@ namespace Test{
             case 1://objeto
             
                 console.clear();
+                
                 //objeto simple
                 let persona : any = { "nombre" : "Juan", "edad" : 35 };
                 
@@ -54,6 +55,7 @@ namespace Test{
             case 4://uso del JSON.stringify
                 
                 console.clear();
+
                 //objeto simple
                 let p : any = { "nombre" : "Juan", "edad" : 35 }; // objeto json
 
@@ -70,6 +72,7 @@ namespace Test{
             case 5://JSON con funciones
 
                 console.clear();
+
                 //objeto con funciones
                 let personaFunc : any = {
                                         "nombre" : "Jorge",
@@ -86,6 +89,7 @@ namespace Test{
             case 6://JSON complejo con funciones
                 
                 console.clear();
+                
                 //array de objetos con funciones
                 let personasFunc = {
                                     "personas" : [

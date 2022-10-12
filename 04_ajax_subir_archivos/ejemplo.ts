@@ -11,7 +11,7 @@ let xhr : XMLHttpRequest = new XMLHttpRequest();
 function SubirFoto() : void {
     
     //RECUPERO LA IMAGEN SELECCIONADA POR EL USUARIO
-    let foto : any = (<HTMLInputElement> document.getElementById("foto"));
+    let foto : any = (<HTMLInputElement> document.getElementById("foto")); // Recupero el input file html
 
     //INSTANCIO OBJETO FORMDATA
     let form : FormData = new FormData();
@@ -22,8 +22,8 @@ function SubirFoto() : void {
     form.append('foto', foto.files[0]); // foto es el name del elemento y fotos.files[0] es el valor (par clave valor)
 
     //PARAMETRO RECUPERADO POR $_POST O $_GET (SEGUN CORRESPONDA)
-    form.append('op', "subirFoto");
-    //form.append('op', "subirFotoJSON");
+    //form.append('op', "subirFoto");
+    form.append('op', "subirFotoJSON");
 
     //METODO; URL; ASINCRONICO?
     xhr.open('POST', './BACKEND/nexo.php', true);
@@ -37,9 +37,9 @@ function SubirFoto() : void {
     //FUNCION CALLBACK
     xhr.onreadystatechange = () => {
 
-        respuestaArray();
+        //respuestaArray();
 
-        //respuestaJSON();
+        respuestaJSON();
         
     };
 }
