@@ -1,0 +1,8 @@
+4,Cafe,Ethiopia,A345,100,./productos/imagenes/Cafe.Ethiopia.202122.jpg
+5,Cafe,Ethiopia,A345,100,./productosBorrados/5.Cafe.borrado.204756.jpg
+10,Mate,Argentina,ARG50,150,
+9,Cafe,Colombia,COL5,200,
+12,Vino,Argentina,FR200,300,
+11,Tomate,Argentina,AR400,65,./productosBorrados/11.Tomate.borrado.042149.jpg
+15,Tomate,Brasil,B30,165,./productos/imagenes/Tomate.Brasil.042841.jpg
+14,Vino,Argentina,ARG56,500,
