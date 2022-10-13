@@ -1,0 +1,3 @@
+21,FateO,200-55-R20,60000,./neumaticosBorrados/21.FateO.borrado.jpg
+25,Goodyear,290-55-R102,30000,./neumaticosBorrados/25.Goodyear.borrado.233249.png
+27,Firestone,190-100-FS,26700,./neumaticosBorrados/27.Firestone.borrado.224213.png
