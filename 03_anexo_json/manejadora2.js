@@ -7,7 +7,7 @@ var Test;
         var persona = { "nombre": "Juan", "edad": 35 };
         var pagina = "../BACKEND/json_test_enviar.php";
         var ajax = new Ajax();
-        var params = "miPersona=" + JSON.stringify(persona);
+        var params = "miPersona=" + JSON.stringify(persona); // serialización de persona
         ajax.Post(pagina, function (resultado) {
             document.getElementById("divResultado").innerHTML = resultado;
             console.clear();

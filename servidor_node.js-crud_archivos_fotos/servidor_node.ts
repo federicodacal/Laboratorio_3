@@ -54,7 +54,7 @@ app.get('/productos', (request:any, response:any)=>{
         let prod_array = archivo.split(",\r\n");
 
         response.send(JSON.stringify(prod_array));
-    });
+    }); 
 });
 
 //AGREGAR

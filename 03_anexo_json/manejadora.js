@@ -3,20 +3,20 @@ var Test;
 (function (Test) {
     function EjemplosJSON(queEjemplo) {
         switch (queEjemplo) {
-            case 1://objeto
+            case 1: //objeto
                 console.clear();
                 //objeto simple
                 var persona = { "nombre": "Juan", "edad": 35 };
                 console.log(persona.nombre + " - " + persona.edad);
                 console.log(persona["nombre"] + " - " + persona["edad"]);
                 break;
-            case 2://arrays
+            case 2: //arrays
                 console.clear();
                 //array simple
                 var nombres = ["Juan", "Pablo", "Ramiro"];
                 for (var i = 0; i < nombres.length; i++)
                     console.log(nombres[i]);
-                //array de objetos
+                //array de objetos json
                 var personas = [
                     { "nombre": "Juan", "edad": 35 },
                     { "nombre": "Anibal", "edad": 26 }
@@ -24,24 +24,24 @@ var Test;
                 for (var i = 0; i < personas.length; i++)
                     console.log(personas[i].nombre + " - " + personas[i].edad);
                 break;
-            case 3://uso del JSON.parse
+            case 3: //uso del JSON.parse
                 console.clear();
                 //cadena con un array de objetos
                 var cadJSON = ' [{ "nombre" : "Juan", "edad" : 35 },{ "nombre" : "Anibal", "edad" : 26 }] ';
-                var personasJSON = JSON.parse(cadJSON);
+                var personasJSON = JSON.parse(cadJSON); // transformo una cadena a obj json (deserializar)
                 for (var i = 0; i < personasJSON.length; i++)
                     console.log(personasJSON[i].nombre + " - " + personasJSON[i].edad);
                 break;
-            case 4://uso del JSON.stringify
+            case 4: //uso del JSON.stringify
                 console.clear();
                 //objeto simple
-                var p = { "nombre": "Juan", "edad": 35 };
-                var toString_1 = JSON.stringify(p);
+                var p = { "nombre": "Juan", "edad": 35 }; // objeto json
+                var toString_1 = JSON.stringify(p); // transformo el obj json a cadena (serializar)
                 console.log(toString_1);
                 var obj = JSON.parse(toString_1);
                 console.log(obj.nombre + " - " + obj.edad);
                 break;
-            case 5://JSON con funciones
+            case 5: //JSON con funciones
                 console.clear();
                 //objeto con funciones
                 var personaFunc = {
@@ -53,7 +53,7 @@ var Test;
                 };
                 personaFunc.saludar();
                 break;
-            case 6://JSON complejo con funciones
+            case 6: //JSON complejo con funciones
                 console.clear();
                 //array de objetos con funciones
                 var personasFunc = {
