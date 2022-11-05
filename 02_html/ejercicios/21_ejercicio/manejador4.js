@@ -1,11 +1,12 @@
+"use strict";
 var Manejador4;
 (function (Manejador4) {
     function RealizarOperacion() {
-        var operando1 = parseInt(document.getElementById("operando1").value);
-        var operando2 = parseInt(document.getElementById("operando2").value);
-        var radio = document.getElementsByTagName("input");
-        var operador = "";
-        for (var i = 0; i < radio.length; i++) {
+        let operando1 = parseInt(document.getElementById("operando1").value);
+        let operando2 = parseInt(document.getElementById("operando2").value);
+        let radio = document.getElementsByTagName("input");
+        let operador = "";
+        for (let i = 0; i < radio.length; i++) {
             if (radio[i].type == "radio") {
                 if (radio[i].checked) {
                     operador = radio[i].value;
@@ -13,25 +14,25 @@ var Manejador4;
                 }
             }
         }
-        var mensaje = "";
-        var resultado;
+        let mensaje = "";
+        let resultado;
         switch (operador) {
             case '+':
                 resultado = operando1 + operando2;
-                mensaje = "".concat(operando1, " + ").concat(operando2, " = ").concat(resultado);
+                mensaje = `${operando1} + ${operando2} = ${resultado}`;
                 break;
             case '-':
                 resultado = operando1 - operando2;
-                mensaje = "".concat(operando1, " - ").concat(operando2, " = ").concat(resultado);
+                mensaje = `${operando1} - ${operando2} = ${resultado}`;
                 break;
             case '*':
                 resultado = operando1 * operando2;
-                mensaje = "".concat(operando1, " * ").concat(operando2, " = ").concat(resultado);
+                mensaje = `${operando1} * ${operando2} = ${resultado}`;
                 break;
             case '/':
                 if (operando2 != 0) {
                     resultado = operando1 / operando2;
-                    mensaje = "".concat(operando1, " / ").concat(operando2, " = ").concat(resultado);
+                    mensaje = `${operando1} / ${operando2} = ${resultado}`;
                 }
                 else {
                     mensaje = "La división por 0 no está definida";
@@ -45,3 +46,4 @@ var Manejador4;
     }
     Manejador4.RealizarOperacion = RealizarOperacion;
 })(Manejador4 || (Manejador4 = {}));
+//# sourceMappingURL=manejador4.js.map

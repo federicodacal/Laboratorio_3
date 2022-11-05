@@ -2,12 +2,9 @@
 function Click() {
     alert("desde función...");
 }
-var Manejadora = /** @class */ (function () {
-    function Manejadora() {
-    }
-    Manejadora.Click = function () {
+class Manejadora {
+    static Click() {
         alert("desde clase...");
-    };
-    return Manejadora;
-}());
+    }
+}
 //# sourceMappingURL=main1.js.map

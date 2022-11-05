@@ -1,13 +1,14 @@
+"use strict";
 var Manejador5;
 (function (Manejador5) {
     function ValidarDatos() {
-        var mensaje = "";
-        var camposIncompletos = true;
-        var formatoSexo = false;
-        var dni = parseInt(document.getElementById("dni").value);
-        var nombre = document.getElementById("nombre").value;
-        var apellido = document.getElementById("apellido").value;
-        var sexo = document.querySelector('input[name="sexo"]:checked').value;
+        let mensaje = "";
+        let camposIncompletos = true;
+        let formatoSexo = false;
+        let dni = parseInt(document.getElementById("dni").value);
+        let nombre = document.getElementById("nombre").value;
+        let apellido = document.getElementById("apellido").value;
+        let sexo = document.querySelector('input[name="sexo"]:checked').value;
         if (isNaN(dni) || nombre == "" || apellido == "" || sexo == "") {
             mensaje = "Campos incompletos. ";
         }
@@ -27,3 +28,4 @@ var Manejador5;
     }
     Manejador5.ValidarDatos = ValidarDatos;
 })(Manejador5 || (Manejador5 = {}));
+//# sourceMappingURL=manejador5.js.map

@@ -1,9 +1,10 @@
+"use strict";
 var Manejador2;
 (function (Manejador2) {
     function MostrarDatos() {
-        var checkboxes = document.getElementsByTagName("input");
-        var peliculas = new Array();
-        for (var i = 0; i < checkboxes.length; i++) {
+        let checkboxes = document.getElementsByTagName("input");
+        let peliculas = new Array();
+        for (let i = 0; i < checkboxes.length; i++) {
             if (checkboxes[i].type == "checkbox") {
                 if (checkboxes[i].checked) {
                     peliculas.push(checkboxes[i].value);
@@ -11,9 +12,10 @@ var Manejador2;
             }
         }
         console.clear();
-        peliculas.forEach(function (peli) {
+        peliculas.forEach(peli => {
             console.log(peli);
         });
     }
     Manejador2.MostrarDatos = MostrarDatos;
 })(Manejador2 || (Manejador2 = {}));
+//# sourceMappingURL=manejador2.js.map
