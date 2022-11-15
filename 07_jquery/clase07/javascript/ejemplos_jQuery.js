@@ -2,8 +2,9 @@
 function ModificarPs(){
 
     //A TODOS LOS ELEMENTOS P DEL DOCUMENTO LES CAMBIO LA FUENTE
+    //.css() -> recibe la clave del valor que voy a modificar y su valor asociado a esa clave.
     $("p").css("font-family", "arial black");
-//document.getElementsByTagName("p").style.font-family=""
+    //document.getElementsByTagName("p").style.font-family=""
     console.log("para acceder (por nombre) a un elemento HTML");
     console.log("se coloca como selector el nombre del elemento.");
 }
