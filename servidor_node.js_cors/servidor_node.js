@@ -1,79 +1,113 @@
-"use strict";
-const express = require('express');
-const app = express();
+var express = require('express');
+var app = express();
 app.set('puerto', 9876);
-app.get('/', (request, response) => {
+app.get('/', function (request, response) {
     response.send('GET - servidor NodeJS');
 });
-const fs = require('fs');
+//AGREGO FILE SYSTEM
+var fs = require('fs');
+//AGREGO JSON
 app.use(express.json());
-const path_archivo = "./archivos/productos.txt";
-const path_archivo_foto = "./archivos/productos_fotos.txt";
-const multer = require('multer');
-const mime = require('mime-types');
-const storage = multer.diskStorage({
-    destination: "public/fotos/",
+//INDICO RUTA HACIA EL ARCHIVO
+var path_archivo = "./archivos/productos.txt";
+//INDICO RUTA PARA EL ARCHIVO PRODUCTOS-FOTOS
+var path_archivo_foto = "./archivos/productos_fotos.txt";
+//AGREGO MULTER
+var multer = require('multer');
+//AGREGO MIME-TYPES
+var mime = require('mime-types');
+//AGREGO STORAGE
+var storage = multer.diskStorage({
+    destination: "public/fotos/"
 });
-const upload = multer({
+var upload = multer({
     storage: storage
 });
-const mysql = require('mysql');
-const myconn = require('express-myconnection');
-const db_options = {
+//AGREGO MYSQL y EXPRESS-MYCONNECTION
+var mysql = require('mysql');
+var myconn = require('express-myconnection');
+var db_options = {
     host: 'localhost',
     port: 3306,
     user: 'root',
     password: '',
-    database: 'productos_node'
+    database: 'productos_usuarios_node'
 };
+//AGREGO MW 
 app.use(myconn(mysql, db_options, 'single'));
-const cors = require("cors");
+//AGREGO CORS (por default aplica a http://localhost)
+var cors = require("cors");
+//AGREGO MW 
 app.use(cors());
+/*
+let listaBlanca = ["http://localhost", "http://127.0.0.1", "http://mi_host.com"];
+
+let corsOptions = {
+    origin: (origin:any, callback:any)=>{
+        if(listaBlanca.indexOf(origin) != -1)
+            callback(null, true);
+        else
+            callback(new Error("no permitido por CORS."));
+    }
+}
+routes.get("/", cors(corsOptions), (request:any, response:any)=>{
+    response.send("Solo accedia si se encuentra en la 'lista blanca'");
+});
+*/
+//DIRECTORIO DE ARCHIVOS ESTÁTICOS
 app.use(express.static("public"));
-app.get('/productos', (request, response) => {
-    fs.readFile(path_archivo, "UTF-8", (err, archivo) => {
+//##############################################################################################//
+//RUTAS PARA EL CRUD ARCHIVOS
+//##############################################################################################//
+//LISTAR
+app.get('/productos', function (request, response) {
+    fs.readFile(path_archivo, "UTF-8", function (err, archivo) {
         if (err)
             throw ("Error al intentar leer el archivo.");
         console.log("Archivo leído.");
-        let prod_array = archivo.split(",\r\n");
+        var prod_array = archivo.split(",\r\n");
         response.send(JSON.stringify(prod_array));
     });
 });
-app.post('/productos', (request, response) => {
-    let dato = request.body;
-    let contenido = JSON.stringify(dato) + ",\r\n";
-    fs.appendFile(path_archivo, contenido, (err) => {
+//AGREGAR
+app.post('/productos', function (request, response) {
+    var dato = request.body;
+    var contenido = JSON.stringify(dato) + ",\r\n";
+    //agrega texto
+    fs.appendFile(path_archivo, contenido, function (err) {
         if (err)
             throw ("Error al intentar agregar en archivo.");
         console.log("Archivo escrito.");
         response.send("Archivo producto escrito.");
     });
 });
-app.post('/productos/modificar', (request, response) => {
-    let obj = request.body;
-    fs.readFile(path_archivo, "UTF-8", (err, archivo) => {
+//MODIFICAR
+app.post('/productos/modificar', function (request, response) {
+    var obj = request.body;
+    fs.readFile(path_archivo, "UTF-8", function (err, archivo) {
         if (err)
             throw ("Error al intentar leer el archivo.");
-        let prod_array = archivo.split(",\r\n");
-        let obj_array = [];
-        prod_array.forEach((prod_str) => {
+        var prod_array = archivo.split(",\r\n");
+        var obj_array = [];
+        prod_array.forEach(function (prod_str) {
             if (prod_str != "" && prod_str != undefined) {
                 obj_array.push(JSON.parse(prod_str));
             }
         });
-        let obj_array_modif = [];
-        obj_array.forEach((prod) => {
+        var obj_array_modif = [];
+        obj_array.forEach(function (prod) {
             if (prod.codigo == obj.codigo) {
                 prod.marca = obj.marca;
                 prod.precio = obj.precio;
             }
             obj_array_modif.push(prod);
         });
-        let productos_string = "";
-        obj_array_modif.forEach((prod) => {
+        var productos_string = "";
+        obj_array_modif.forEach(function (prod) {
             productos_string += JSON.stringify(prod) + ",\r\n";
         });
-        fs.writeFile(path_archivo, productos_string, (err) => {
+        //escribe texto
+        fs.writeFile(path_archivo, productos_string, function (err) {
             if (err)
                 throw ("Error al intentar escribir en archivo.");
             console.log("Archivo modificado.");
@@ -81,29 +115,32 @@ app.post('/productos/modificar', (request, response) => {
         });
     });
 });
-app.post('/productos/eliminar', (request, response) => {
-    let obj = request.body;
-    fs.readFile(path_archivo, "UTF-8", (err, archivo) => {
+//ELIMINAR
+app.post('/productos/eliminar', function (request, response) {
+    var obj = request.body;
+    fs.readFile(path_archivo, "UTF-8", function (err, archivo) {
         if (err)
             throw ("Error al intentar leer el archivo.");
-        let prod_array = archivo.split(",\r\n");
-        let obj_array = [];
-        prod_array.forEach((prod_str) => {
+        var prod_array = archivo.split(",\r\n");
+        var obj_array = [];
+        prod_array.forEach(function (prod_str) {
             if (prod_str != "" && prod_str != undefined) {
                 obj_array.push(JSON.parse(prod_str));
             }
         });
-        let obj_array_eli = [];
-        obj_array.forEach((prod) => {
+        var obj_array_eli = [];
+        obj_array.forEach(function (prod) {
             if (prod.codigo != obj.codigo) {
+                //se agregan todos los productos, menos el que se quiere eliminar
                 obj_array_eli.push(prod);
             }
         });
-        let productos_string = "";
-        obj_array_eli.forEach((prod) => {
+        var productos_string = "";
+        obj_array_eli.forEach(function (prod) {
             productos_string += JSON.stringify(prod) + ",\r\n";
         });
-        fs.writeFile(path_archivo, productos_string, (err) => {
+        //escribe texto
+        fs.writeFile(path_archivo, productos_string, function (err) {
             if (err)
                 throw ("Error al intentar escribir en archivo.");
             console.log("Archivo eliminado.");
@@ -111,60 +148,69 @@ app.post('/productos/eliminar', (request, response) => {
         });
     });
 });
-app.get('/productos_fotos', (request, response) => {
-    fs.readFile(path_archivo_foto, "UTF-8", (err, archivo) => {
+//##############################################################################################//
+//RUTAS PARA EL CRUD - CON FOTOS -
+//##############################################################################################//
+//LISTAR
+app.get('/productos_fotos', function (request, response) {
+    fs.readFile(path_archivo_foto, "UTF-8", function (err, archivo) {
         if (err)
             throw ("Error al intentar leer el archivo con foto.");
         console.log("Archivo leído con foto.");
-        let prod_array = archivo.split(",\r\n");
+        var prod_array = archivo.split(",\r\n");
         response.send(JSON.stringify(prod_array));
     });
 });
-app.post('/productos_fotos', upload.single("foto"), (request, response) => {
-    let file = request.file;
-    let extension = mime.extension(file.mimetype);
-    let obj = JSON.parse(request.body.obj);
-    let path = file.destination + obj.codigo + "." + extension;
+//AGREGAR
+app.post('/productos_fotos', upload.single("foto"), function (request, response) {
+    //console.log(request.file);
+    var file = request.file;
+    var extension = mime.extension(file.mimetype);
+    var obj = JSON.parse(request.body.obj);
+    var path = file.destination + obj.codigo + "." + extension;
     fs.renameSync(file.path, path);
     obj.path = path.split("public/")[1];
-    let contenido = JSON.stringify(obj) + ",\r\n";
-    fs.appendFile(path_archivo_foto, contenido, (err) => {
+    var contenido = JSON.stringify(obj) + ",\r\n";
+    //agrega texto
+    fs.appendFile(path_archivo_foto, contenido, function (err) {
         if (err)
             throw ("Error al intentar agregar en archivo con foto.");
         console.log("Archivo escrito con foto.");
         response.send("Archivo producto escrito - con foto.");
     });
 });
-app.post('/productos_fotos/modificar', upload.single("foto"), (request, response) => {
-    let file = request.file;
-    let extension = mime.extension(file.mimetype);
-    let obj = JSON.parse(request.body.obj);
-    let path = file.destination + obj.codigo + "." + extension;
+//MODIFICAR
+app.post('/productos_fotos/modificar', upload.single("foto"), function (request, response) {
+    var file = request.file;
+    var extension = mime.extension(file.mimetype);
+    var obj = JSON.parse(request.body.obj);
+    var path = file.destination + obj.codigo + "." + extension;
     fs.renameSync(file.path, path);
     obj.path = path.split("public/")[1];
-    fs.readFile(path_archivo_foto, "UTF-8", (err, archivo) => {
+    fs.readFile(path_archivo_foto, "UTF-8", function (err, archivo) {
         if (err)
             throw ("Error al intentar leer el archivo con foto.");
-        let prod_array = archivo.split(",\r\n");
-        let obj_array = [];
-        prod_array.forEach((prod_str) => {
+        var prod_array = archivo.split(",\r\n");
+        var obj_array = [];
+        prod_array.forEach(function (prod_str) {
             if (prod_str != "" && prod_str != undefined) {
                 obj_array.push(JSON.parse(prod_str));
             }
         });
-        let obj_array_modif = [];
-        obj_array.forEach((prod) => {
+        var obj_array_modif = [];
+        obj_array.forEach(function (prod) {
             if (prod.codigo == obj.codigo) {
                 prod.marca = obj.marca;
                 prod.precio = obj.precio;
             }
             obj_array_modif.push(prod);
         });
-        let productos_string = "";
-        obj_array_modif.forEach((prod) => {
+        var productos_string = "";
+        obj_array_modif.forEach(function (prod) {
             productos_string += JSON.stringify(prod) + ",\r\n";
         });
-        fs.writeFile(path_archivo_foto, productos_string, (err) => {
+        //escribe texto
+        fs.writeFile(path_archivo_foto, productos_string, function (err) {
             if (err)
                 throw ("Error al intentar escribir en archivo.");
             console.log("Archivo modificado con foto.");
@@ -172,38 +218,42 @@ app.post('/productos_fotos/modificar', upload.single("foto"), (request, response
         });
     });
 });
-app.post('/productos_fotos/eliminar', (request, response) => {
-    let obj = request.body;
-    fs.readFile(path_archivo_foto, "UTF-8", (err, archivo) => {
+//ELIMINAR
+app.post('/productos_fotos/eliminar', function (request, response) {
+    var obj = request.body;
+    fs.readFile(path_archivo_foto, "UTF-8", function (err, archivo) {
         if (err)
             throw ("Error al intentar leer el archivo con foto.");
-        let prod_array = archivo.split(",\r\n");
-        let obj_array = [];
-        prod_array.forEach((prod_str) => {
+        var prod_array = archivo.split(",\r\n");
+        var obj_array = [];
+        prod_array.forEach(function (prod_str) {
             if (prod_str != "" && prod_str != undefined) {
                 obj_array.push(JSON.parse(prod_str));
             }
         });
-        let obj_array_eli = [];
-        let path_foto = "public/";
-        obj_array.forEach((prod) => {
+        var obj_array_eli = [];
+        var path_foto = "public/";
+        obj_array.forEach(function (prod) {
             if (prod.codigo != obj.codigo) {
+                //se agregan todos los productos, menos el que se quiere eliminar
                 obj_array_eli.push(prod);
             }
             else {
+                //se guarda el path de la foto a ser eliminada
                 path_foto += prod.path;
             }
         });
-        let productos_string = "";
+        var productos_string = "";
         if (path_foto !== "") {
-            obj_array_eli.forEach((prod) => {
+            obj_array_eli.forEach(function (prod) {
                 productos_string += JSON.stringify(prod) + ",\r\n";
             });
-            fs.writeFile(path_archivo_foto, productos_string, (err) => {
+            //escribe texto
+            fs.writeFile(path_archivo_foto, productos_string, function (err) {
                 if (err)
                     throw ("Error al intentar escribir en archivo con foto.");
                 console.log("Archivo eliminado con foto.");
-                fs.unlink(path_foto, (err) => {
+                fs.unlink(path_foto, function (err) {
                     if (err)
                         throw err;
                     console.log(path_foto + ' fue borrado.');
@@ -213,39 +263,46 @@ app.post('/productos_fotos/eliminar', (request, response) => {
         }
     });
 });
-app.post('/test_fotos_multiples', upload.array("fotos"), (request, response) => {
+//BONUS TRACK - AGREGAR ARCHIVOS MÚLTIPLES
+app.post('/test_fotos_multiples', upload.array("fotos"), function (request, response) {
     console.log(request.files);
-    let files = request.files;
-    for (let i = 0; i < files.length; i++) {
-        const file = files[i];
-        let extension = mime.extension(file.mimetype);
-        let path = file.destination + "__foto__" + i + "." + extension;
+    var files = request.files;
+    for (var i = 0; i < files.length; i++) {
+        var file = files[i];
+        var extension = mime.extension(file.mimetype);
+        var path = file.destination + "__foto__" + i + "." + extension;
         fs.renameSync(file.path, path);
     }
     response.send("Archivos múltiples subidos exitosamente!!!");
 });
-app.get('/productos_bd', (request, response) => {
-    request.getConnection((err, conn) => {
+//##############################################################################################//
+//RUTAS PARA EL CRUD - CON BD -
+//##############################################################################################//
+//LISTAR
+app.get('/productos_bd', function (request, response) {
+    request.getConnection(function (err, conn) {
         if (err)
             throw ("Error al conectarse a la base de datos.");
-        conn.query("select * from productos", (err, rows) => {
+        conn.query("select * from productos", function (err, rows) {
             if (err)
                 throw ("Error en consulta de base de datos.");
+            //response.json(rows);
             response.send(JSON.stringify(rows));
         });
     });
 });
-app.post('/productos_bd', upload.single("foto"), (request, response) => {
-    let file = request.file;
-    let extension = mime.extension(file.mimetype);
-    let obj = JSON.parse(request.body.obj);
-    let path = file.destination + obj.codigo + "." + extension;
+//AGREGAR
+app.post('/productos_bd', upload.single("foto"), function (request, response) {
+    var file = request.file;
+    var extension = mime.extension(file.mimetype);
+    var obj = JSON.parse(request.body.obj);
+    var path = file.destination + obj.codigo + "." + extension;
     fs.renameSync(file.path, path);
     obj.path = path.split("public/")[1];
-    request.getConnection((err, conn) => {
+    request.getConnection(function (err, conn) {
         if (err)
             throw ("Error al conectarse a la base de datos.");
-        conn.query("insert into productos set ?", [obj], (err, rows) => {
+        conn.query("insert into productos set ?", [obj], function (err, rows) {
             if (err) {
                 console.log(err);
                 throw ("Error en consulta de base de datos.");
@@ -254,21 +311,23 @@ app.post('/productos_bd', upload.single("foto"), (request, response) => {
         });
     });
 });
-app.post('/productos_bd/modificar', upload.single("foto"), (request, response) => {
-    let file = request.file;
-    let extension = mime.extension(file.mimetype);
-    let obj = JSON.parse(request.body.obj);
-    let path = file.destination + obj.codigo + "." + extension;
+//MODIFICAR
+app.post('/productos_bd/modificar', upload.single("foto"), function (request, response) {
+    var file = request.file;
+    var extension = mime.extension(file.mimetype);
+    var obj = JSON.parse(request.body.obj);
+    var path = file.destination + obj.codigo + "." + extension;
     fs.renameSync(file.path, path);
     obj.path = path.split("public/")[1];
-    let obj_modif = {};
+    var obj_modif = {};
+    //para excluir la pk (codigo)
     obj_modif.marca = obj.marca;
     obj_modif.precio = obj.precio;
     obj_modif.path = obj.path;
-    request.getConnection((err, conn) => {
+    request.getConnection(function (err, conn) {
         if (err)
             throw ("Error al conectarse a la base de datos.");
-        conn.query("update productos set ? where codigo = ?", [obj_modif, obj.codigo], (err, rows) => {
+        conn.query("update productos set ? where codigo = ?", [obj_modif, obj.codigo], function (err, rows) {
             if (err) {
                 console.log(err);
                 throw ("Error en consulta de base de datos.");
@@ -277,27 +336,30 @@ app.post('/productos_bd/modificar', upload.single("foto"), (request, response) =
         });
     });
 });
-app.post('/productos_bd/eliminar', (request, response) => {
-    let obj = request.body;
-    let path_foto = "public/";
-    request.getConnection((err, conn) => {
+//ELIMINAR
+app.post('/productos_bd/eliminar', function (request, response) {
+    var obj = request.body;
+    var path_foto = "public/";
+    request.getConnection(function (err, conn) {
         if (err)
             throw ("Error al conectarse a la base de datos.");
-        conn.query("select path from productos where codigo = ?", [obj.codigo], (err, result) => {
+        //obtengo el path de la foto del producto a ser eliminado
+        conn.query("select path from productos where codigo = ?", [obj.codigo], function (err, result) {
             if (err)
                 throw ("Error en consulta de base de datos.");
+            //console.log(result[0].path);
             path_foto += result[0].path;
         });
     });
-    request.getConnection((err, conn) => {
+    request.getConnection(function (err, conn) {
         if (err)
             throw ("Error al conectarse a la base de datos.");
-        conn.query("delete from productos where codigo = ?", [obj.codigo], (err, rows) => {
+        conn.query("delete from productos where codigo = ?", [obj.codigo], function (err, rows) {
             if (err) {
                 console.log(err);
                 throw ("Error en consulta de base de datos.");
             }
-            fs.unlink(path_foto, (err) => {
+            fs.unlink(path_foto, function (err) {
                 if (err)
                     throw err;
                 console.log(path_foto + ' fue borrado.');
@@ -306,7 +368,6 @@ app.post('/productos_bd/eliminar', (request, response) => {
         });
     });
 });
-app.listen(app.get('puerto'), () => {
+app.listen(app.get('puerto'), function () {
     console.log('Servidor corriendo sobre puerto:', app.get('puerto'));
 });
-//# sourceMappingURL=servidor_node.js.map
