@@ -46,7 +46,7 @@ const db_options = {
     port: 3306,
     user: 'root',
     password: '',
-    database: 'productos_node'
+    database: 'productos_usuarios_node'
 };
 
 //AGREGO MW 

@@ -1,22 +1,29 @@
-"use strict";
 var express = require('express');
 var app = express();
 app.set('puerto', 9876);
 app.get('/', function (request, response) {
     response.send('GET - servidor NodeJS');
 });
+//AGREGO FILE SYSTEM
 var fs = require('fs');
+//AGREGO JSON
 app.use(express.json());
+//INDICO RUTA HACIA EL ARCHIVO
 var path_archivo = "./archivos/productos.txt";
+//INDICO RUTA PARA EL ARCHIVO PRODUCTOS-FOTOS
 var path_archivo_foto = "./archivos/productos_fotos.txt";
+//AGREGO MULTER
 var multer = require('multer');
+//AGREGO MIME-TYPES
 var mime = require('mime-types');
+//AGREGO STORAGE
 var storage = multer.diskStorage({
-    destination: "public/fotos/",
+    destination: "public/fotos/"
 });
 var upload = multer({
     storage: storage
 });
+//AGREGO MYSQL y EXPRESS-MYCONNECTION
 var mysql = require('mysql');
 var myconn = require('express-myconnection');
 var db_options = {
@@ -24,9 +31,14 @@ var db_options = {
     port: 3306,
     user: 'root',
     password: '',
-    database: 'productos_node'
+    database: 'productos_usuarios_node'
 };
+//AGREGO MW 
 app.use(myconn(mysql, db_options, 'single'));
+//##############################################################################################//
+//RUTAS PARA EL CRUD ARCHIVOS
+//##############################################################################################//
+//LISTAR
 app.get('/productos', function (request, response) {
     fs.readFile(path_archivo, "UTF-8", function (err, archivo) {
         if (err)
@@ -36,9 +48,11 @@ app.get('/productos', function (request, response) {
         response.send(JSON.stringify(prod_array));
     });
 });
+//AGREGAR
 app.post('/productos', function (request, response) {
     var dato = request.body;
     var contenido = JSON.stringify(dato) + ",\r\n";
+    //agrega texto
     fs.appendFile(path_archivo, contenido, function (err) {
         if (err)
             throw ("Error al intentar agregar en archivo.");
@@ -46,6 +60,7 @@ app.post('/productos', function (request, response) {
         response.send("Archivo producto escrito.");
     });
 });
+//MODIFICAR
 app.post('/productos/modificar', function (request, response) {
     var obj = request.body;
     fs.readFile(path_archivo, "UTF-8", function (err, archivo) {
@@ -70,6 +85,7 @@ app.post('/productos/modificar', function (request, response) {
         obj_array_modif.forEach(function (prod) {
             productos_string += JSON.stringify(prod) + ",\r\n";
         });
+        //escribe texto
         fs.writeFile(path_archivo, productos_string, function (err) {
             if (err)
                 throw ("Error al intentar escribir en archivo.");
@@ -78,6 +94,7 @@ app.post('/productos/modificar', function (request, response) {
         });
     });
 });
+//ELIMINAR
 app.post('/productos/eliminar', function (request, response) {
     var obj = request.body;
     fs.readFile(path_archivo, "UTF-8", function (err, archivo) {
@@ -93,6 +110,7 @@ app.post('/productos/eliminar', function (request, response) {
         var obj_array_eli = [];
         obj_array.forEach(function (prod) {
             if (prod.codigo != obj.codigo) {
+                //se agregan todos los productos, menos el que se quiere eliminar
                 obj_array_eli.push(prod);
             }
         });
@@ -100,6 +118,7 @@ app.post('/productos/eliminar', function (request, response) {
         obj_array_eli.forEach(function (prod) {
             productos_string += JSON.stringify(prod) + ",\r\n";
         });
+        //escribe texto
         fs.writeFile(path_archivo, productos_string, function (err) {
             if (err)
                 throw ("Error al intentar escribir en archivo.");
@@ -108,6 +127,10 @@ app.post('/productos/eliminar', function (request, response) {
         });
     });
 });
+//##############################################################################################//
+//RUTAS PARA EL CRUD - CON FOTOS -
+//##############################################################################################//
+//LISTAR
 app.get('/productos_fotos', function (request, response) {
     fs.readFile(path_archivo_foto, "UTF-8", function (err, archivo) {
         if (err)
@@ -117,7 +140,9 @@ app.get('/productos_fotos', function (request, response) {
         response.send(JSON.stringify(prod_array));
     });
 });
+//AGREGAR
 app.post('/productos_fotos', upload.single("foto"), function (request, response) {
+    //console.log(request.file);
     var file = request.file;
     var extension = mime.extension(file.mimetype);
     var obj = JSON.parse(request.body.obj);
@@ -125,6 +150,7 @@ app.post('/productos_fotos', upload.single("foto"), function (request, response)
     fs.renameSync(file.path, path);
     obj.path = path.split("public/")[1];
     var contenido = JSON.stringify(obj) + ",\r\n";
+    //agrega texto
     fs.appendFile(path_archivo_foto, contenido, function (err) {
         if (err)
             throw ("Error al intentar agregar en archivo con foto.");
@@ -132,6 +158,7 @@ app.post('/productos_fotos', upload.single("foto"), function (request, response)
         response.send("Archivo producto escrito - con foto.");
     });
 });
+//MODIFICAR
 app.post('/productos_fotos/modificar', upload.single("foto"), function (request, response) {
     var file = request.file;
     var extension = mime.extension(file.mimetype);
@@ -161,6 +188,7 @@ app.post('/productos_fotos/modificar', upload.single("foto"), function (request,
         obj_array_modif.forEach(function (prod) {
             productos_string += JSON.stringify(prod) + ",\r\n";
         });
+        //escribe texto
         fs.writeFile(path_archivo_foto, productos_string, function (err) {
             if (err)
                 throw ("Error al intentar escribir en archivo.");
@@ -169,6 +197,7 @@ app.post('/productos_fotos/modificar', upload.single("foto"), function (request,
         });
     });
 });
+//ELIMINAR
 app.post('/productos_fotos/eliminar', function (request, response) {
     var obj = request.body;
     fs.readFile(path_archivo_foto, "UTF-8", function (err, archivo) {
@@ -185,9 +214,11 @@ app.post('/productos_fotos/eliminar', function (request, response) {
         var path_foto = "public/";
         obj_array.forEach(function (prod) {
             if (prod.codigo != obj.codigo) {
+                //se agregan todos los productos, menos el que se quiere eliminar
                 obj_array_eli.push(prod);
             }
             else {
+                //se guarda el path de la foto a ser eliminada
                 path_foto += prod.path;
             }
         });
@@ -196,6 +227,7 @@ app.post('/productos_fotos/eliminar', function (request, response) {
             obj_array_eli.forEach(function (prod) {
                 productos_string += JSON.stringify(prod) + ",\r\n";
             });
+            //escribe texto
             fs.writeFile(path_archivo_foto, productos_string, function (err) {
                 if (err)
                     throw ("Error al intentar escribir en archivo con foto.");
@@ -210,6 +242,7 @@ app.post('/productos_fotos/eliminar', function (request, response) {
         }
     });
 });
+//BONUS TRACK - AGREGAR ARCHIVOS MÚLTIPLES
 app.post('/test_fotos_multiples', upload.array("fotos"), function (request, response) {
     console.log(request.files);
     var files = request.files;
@@ -221,6 +254,10 @@ app.post('/test_fotos_multiples', upload.array("fotos"), function (request, resp
     }
     response.send("Archivos múltiples subidos exitosamente!!!");
 });
+//##############################################################################################//
+//RUTAS PARA EL CRUD - CON BD -
+//##############################################################################################//
+//LISTAR
 app.get('/productos_bd', function (request, response) {
     request.getConnection(function (err, conn) {
         if (err)
@@ -228,10 +265,12 @@ app.get('/productos_bd', function (request, response) {
         conn.query("select * from productos", function (err, rows) {
             if (err)
                 throw ("Error en consulta de base de datos.");
+            //response.json(rows); // Error!
             response.send(JSON.stringify(rows));
         });
     });
 });
+//AGREGAR
 app.post('/productos_bd', upload.single("foto"), function (request, response) {
     var file = request.file;
     var extension = mime.extension(file.mimetype);
@@ -251,6 +290,7 @@ app.post('/productos_bd', upload.single("foto"), function (request, response) {
         });
     });
 });
+//MODIFICAR
 app.post('/productos_bd/modificar', upload.single("foto"), function (request, response) {
     var file = request.file;
     var extension = mime.extension(file.mimetype);
@@ -259,6 +299,7 @@ app.post('/productos_bd/modificar', upload.single("foto"), function (request, re
     fs.renameSync(file.path, path);
     obj.path = path.split("public/")[1];
     var obj_modif = {};
+    //para excluir la pk (codigo)
     obj_modif.marca = obj.marca;
     obj_modif.precio = obj.precio;
     obj_modif.path = obj.path;
@@ -274,15 +315,18 @@ app.post('/productos_bd/modificar', upload.single("foto"), function (request, re
         });
     });
 });
+//ELIMINAR
 app.post('/productos_bd/eliminar', function (request, response) {
     var obj = request.body;
     var path_foto = "public/";
     request.getConnection(function (err, conn) {
         if (err)
             throw ("Error al conectarse a la base de datos.");
+        //obtengo el path de la foto del producto a ser eliminado
         conn.query("select path from productos where codigo = ?", [obj.codigo], function (err, result) {
             if (err)
                 throw ("Error en consulta de base de datos.");
+            //console.log(result[0].path);
             path_foto += result[0].path;
         });
     });
@@ -306,4 +350,3 @@ app.post('/productos_bd/eliminar', function (request, response) {
 app.listen(app.get('puerto'), function () {
     console.log('Servidor corriendo sobre puerto:', app.get('puerto'));
 });
-//# sourceMappingURL=servidor_node.js.map
