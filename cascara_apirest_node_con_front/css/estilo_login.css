@@ -1,0 +1,51 @@
+* {
+  margin:0;
+  padding:0;
+}
+
+body {
+  text-align: center;
+  margin: 0 auto;
+  color:#000000;
+  background: lightpink;
+  font-family:'Open Sans',sans-serif;
+}
+
+.input-group-addon
+{
+  background: #eeeeee;
+  padding: 6px 13px;
+}
+
+.principal
+{
+  background-color: skyblue;
+}
+
+#form-login
+{
+  background-color:lightgrey;
+  display:inline-block;
+  left : 35%;
+}
+
+.input-group-addon
+{
+  background: #eeeeee;
+  padding: 6px 13px;
+}
+
+.cuadro
+{
+  top: 4cm;
+  left: 0.3cm;
+  right: auto;
+  position: relative;
+}
+
+h1
+{
+  color: #19a2be;
+  font-size: 24pt;
+  font-weight: bold;
+}
